@@ -31,11 +31,10 @@ router.post("/add-collection", (req, res, next) => {
       return res.status(403).json({ message: "Some error with collections" })
     });
     // take _id of collection
-    collection_id = collection.findById(req.collection.id)
+    collection_id = req.collection._id
 
     // update user with $addtoset + _id of collection.
-
-    User.findByIdAndUpdate(req.user._id, { $addToSet: { collections: [req.body.collection] } })
+    User.findByIdAndUpdate(req.user._id, { $addToSet: { collections: [collection_id] } })
       .then(user => {
         return res.json(user)
       }).catch(error => {
@@ -43,20 +42,36 @@ router.post("/add-collection", (req, res, next) => {
       })
   }
 
-  // User.findById()
-  //   .then(.update(
-  //     { _id: req.user._id },
-  //     { $addToSet: { collections: req.body.eventId } }
-  //   ).then(x => {
-  //     console.log("xxxxxxxxxxxxx", x);
-  //   });
+  //trying this in index.js
+  // router.post("/add-article", (req, res, next) => {
+  //   if (req.isAuthenticated()) {
+  //     Collection.update(
+  //       { _id: req.collection._id },
+  //       { $addToSet: { items: req.body.eventId } }
+  //     ).then(x => {
+  //       console.log("xxxxxxxxxxxxx", x);
+  //     });
+  //     res.send("up and running");
+  //   }
+  // });
 })
 
+
 router.get("/user/collections", (req, res, next) => {
-  res.json([
-    { name: "ruby", articles: [123, 234, 345] }
-  ])
-  // res.json(req.user.collections)
+
+  if (req.isAuthenticated()) {
+    console.log("AAAAAAAA")
+    User.findById(req.user._id).populate('collections', user.collections).then(collection => {
+      console.log("==========>", req.user._id)
+      return res.json(collection)
+    }).catch(error => {
+      return res.status(403).json({ message: 'Unauthorized' })
+    })
+    // res.json([
+    //   { name: "ruby", articles: [123, 234, 345] }
+    // ])
+    // res.json(req.user.collections)
+  }
 });
 
 module.exports = router;

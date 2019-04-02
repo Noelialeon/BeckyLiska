@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require('../models/user-model');
+const Collection = require('../models/collection-model');
 //const NewsAPI = require("newsapi");
 //const newsapi = new NewsAPI(process.env.apiKey);
 
@@ -120,20 +121,33 @@ router.get("/api/stories/:searchTerm", (req, res, next) => {
 });
 
 // adding liked articles to user collections favourites folder
-router.post("/user/collections", (req, res, next) => {
-  User.update(
-    { _id: req.user._id },
-    { $addToSet: { collections: req.body.eventId } }
-  ).then(x => {
-    console.log("xxxxxxxxxxxxx", x);
-  });
-})
+router.post("/add-article", (req, res, next) => {
+  if (req.isAuthenticated()) {
+    Collection.update(
+      { _id: req.collection._id },
+      { $addToSet: { items: req.body.article.id } }
+    ).then(x => {
+      console.log("xxxxxxxxxxxxx", x);
+    });
+    res.send("up and running");
+  }
+});
 
-router.get("/user/collections", (req, res, next) => {
-  res.json([
-    { name: "ruby", articles: [123, 234, 345] }
-  ])
-  // res.json(req.user.collections)
+//returning collection ids
+router.get("/user/articles", (req, res, next) => {
+  if (req.isAuthenticated()) {
+
+    Collection.findById(req.user._id).populate('collections').then(user => {
+      console.log("populated collection", collection)
+      return res.json(collection)
+    }).catch(error => {
+      return res.status(403).json({ message: 'Unauthorized' })
+    })
+    res.json([
+      { name: "ruby", articles: [123, 234, 345] }
+    ])
+    // res.json(req.user.collections)
+  }
 });
 
 module.exports = router;
