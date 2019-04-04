@@ -9,7 +9,8 @@ export default class Card extends Component {
       date: [],
       url: "",
       text: [],
-      results: []
+      results: [],
+      user: {}
       // redirect: false
     };
   }
@@ -26,15 +27,20 @@ export default class Card extends Component {
   //   });
   // };
 
-  // componentDidMount() {
-  //   this.getInfo();
-  //   /* console.log(this.state.results) */
-  // }
+  componentDidMount() {
+    // this.setState({ user: this.props.user })
+
+    // this.getInfo();
+    // /* console.log(this.state.results) */
+    // if (this.props.user) {
+    //   this.setState({ user: this.props.user })
+    // }
+  }
 
   saveArticle = event => {
     event.preventDefault();
     Axios.post(
-      (process.env.REACT_APP_API_URL || "http://localhost:5000") + "/add-article" //? not sure whether here or in server
+      (process.env.REACT_APP_API_URL || "http://localhost:5000") + "/save-article" //? not sure whether here or in server
     );
   };
 

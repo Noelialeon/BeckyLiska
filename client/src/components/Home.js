@@ -13,8 +13,8 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      results: []
-
+      results: [],
+      // loggedInUser: {}
       // redirect: false
     };
   }
@@ -46,7 +46,7 @@ class Home extends Component {
           <Search onSearch={this.getInfo} />
         </div>
 
-        <Card mirResult={this.state.results} />
+        <Card user={this.loggedInUser} mirResult={this.state.results} />
         <Footer />
       </div>
     );

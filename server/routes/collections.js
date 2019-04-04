@@ -7,6 +7,8 @@ const passport = require("passport");
 // http://localhost:5000/collections
 
 router.get("/", (req, res, next) => {
+  console.log("USER FROM COLLECTIONS", req.isAuthenticated(), req.user)
+
   if (req.isAuthenticated()) {
     User.findById(req.user._id).populate('collections').then(user => {
       console.log("populated user", user)
@@ -58,12 +60,12 @@ router.post("/add-collection", (req, res, next) => {
 
 
 router.get("/user/collections", (req, res, next) => {
+  console.log("req.isAuthenticated", req.isAuthenticated())
 
+  console.log(req.user, req.isAuthenticated())
   if (req.isAuthenticated()) {
-    console.log("AAAAAAAA")
-    User.findById(req.user._id).populate('collections', user.collections).then(collection => {
-      console.log("==========>", req.user._id)
-      return res.json(collection)
+    User.findById(req.user._id).populate('collections').then(user => {
+      return res.json(user)
     }).catch(error => {
       return res.status(403).json({ message: 'Unauthorized' })
     })

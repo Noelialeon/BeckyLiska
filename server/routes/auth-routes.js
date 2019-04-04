@@ -79,12 +79,14 @@ authRoutes.post('/login', (req, res, next) => {
       }
       // We are now logged in (that's why we can also send req.user)
       res.status(200).json(theUser);
+
     });
   })(req, res, next);
 });
 
 
 authRoutes.get('/loggedin', (req, res, next) => {
+  console.log("req.mir", req)
   // req.isAuthenticated() is defined by passport
   if (req.isAuthenticated()) {
     res.status(200).json(req.user);

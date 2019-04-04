@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 
 export default class CollectionFolder extends Component {
+
   render() {
+    console.log("COLEEEEECTION", this.props.userCollections)
+
     return (
       <div className="folder-group">
-        {this.props.userCollections.map((collection, i) => {
+        {/* {this.props.userCollections.map((collection, i) => {
           console.log("coleeeeeectionsdata", collection)
           return (
             <div>
@@ -15,7 +18,7 @@ export default class CollectionFolder extends Component {
             </div>
           )
         })
-        }
+        } */}
       </div>
     )
   };

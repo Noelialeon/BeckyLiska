@@ -6,8 +6,8 @@ class LandingPage extends Component {
   render() {
     return (
       <div>
-        <Signup history={this.props.history} />
-        <Login history={this.props.history} />
+        <Signup history={this.props.history} loggedInUser={this.props.loggedInUser} />
+        <Login history={this.props.history} loggedInUser={this.props.loggedInUser} />
       </div>
     )
   }

@@ -29,7 +29,7 @@ require("./configs/passport");
 
 //requiring mongodb
 mongoose
-  .connect(process.env.MONGODB_URI || "mongodb://localhost/project3ironhack", {
+  .connect(process.env.MONGODB_URI || "mongodb://localhost/Project3Ironhack", {
     useNewUrlParser: true
   })
   .then(x => {

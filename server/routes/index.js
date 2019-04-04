@@ -59,9 +59,13 @@ const getStory = (url, searchTerm) => {
     else {
       return null;
     }
-  }).catch(error => console.log('error'));
-  //NEVER CONSOLE LOG THE ACTUAL ERROR HACKERNEWS FUCKING HATES IT
-
+  }).catch(error => console.log('error from hacker news'));
+  //NEVER 
+  //CONSOLE LOG
+  //THE ACTUAL ERROR
+  //HACKERNEWS
+  //FUCKING HATES IT
+  //!!!!!!!!!!!!!!!!!!!!!!!!
   return response;
 }
 
@@ -106,30 +110,37 @@ const getHackerNewsNewArticles = searchTerm => {
 // });
 
 router.get("/api/stories", (req, res, next) => {
+  console.log("USER FROM STORIES", req.isAuthenticated(), req.user)
+
   getHackerNewsNewArticles().then(articles => {
-    console.log("test", articles);
     return res.json(articles.filter(a => a !== null));
-  });
+  }).catch(error => {
+    return res.json({ message: error })
+  })
 });
 
 
 router.get("/api/stories/:searchTerm", (req, res, next) => {
   getHackerNewsNewArticles(req.params.searchTerm).then(articles => {
-    console.log("test", articles);
     res.json(articles.filter(a => a !== null));
-  });
+  }).catch(error => {
+    return res.json({ message: error })
+  })
 });
 
 // adding liked articles to user collections favourites folder
-router.post("/add-article", (req, res, next) => {
+router.get("/save-article", (req, res, next) => {
+  console.log("USER FROM SAVE ARTICLE", req.isAuthenticated(), req.user)
+
   if (req.isAuthenticated()) {
     Collection.update(
       { _id: req.collection._id },
       { $addToSet: { items: req.body.article.id } }
-    ).then(x => {
-      console.log("xxxxxxxxxxxxx", x);
-    });
-    res.send("up and running");
+    ).then(result => {
+      res.send("up and running")
+    }).catch(error => {
+      return res.json({ message: error })
+    })
   }
 });
 
